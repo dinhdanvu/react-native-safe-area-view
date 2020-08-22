@@ -1,60 +1,17 @@
 # react-native-safe-area-view
 
-This library provides automatic padding when a view intersects with a safe area (notch, status bar, home indicator).
-
-## Installation
-
-> 💡 The `latest` release is currently marked as 1.1.1 and depends on react-native-safe-area-context@^0.7.3. To use react-native-safe-area-context@^1.0.0, you will need to install react-native-safe-area-view@2.0.0 - this currently has the `next` tag on npm.
-
-### In the Expo managed workflow:
-
-```
-expo install react-native-safe-area-view react-native-safe-area-context
-```
-
-### In bare React Native projects:
-
-```
-yarn add react-native-safe-area-view react-native-safe-area-context
-```
-
-Next, you need to link `react-native-safe-area-context`. If you are using autolinking, run `npx pod-install` again. If not, follow [these instructions](https://github.com/th3rdwave/react-native-safe-area-context#getting-started). Then re-build your app binary.
+This is a JS-only version of SafeAreaView that will be available in React Native v0.50.0, to be released at the beginning of November. This version also adds a small api that makes SafeAreaView more flexible for complex UIs. React Navigation already includes and uses this view starting in [v1.0.0-beta.16](https://github.com/react-community/react-navigation/releases/tag/v1.0.0-beta.16).
 
 ## Usage
 
-First you need to wrap the root of your app with the `SafeAreaProvider`.
-
-```js
-import * as React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import MyAwesomeApp from './src/MyAwesomeApp';
-
-export default function App() {
-  return (
-    <SafeAreaProvider>
-      <MyAwesomeApp />
-    </SafeAreaProvider>
-  );
-}
-```
-
-Now you can wrap components that touch any edge of the screen with a `SafeAreaView`.
+Wrap components that touch any edge of the screen with SafeAreaView.
 
 ```jsx
-import { SafeAreaView } from 'react-native-safe-area-view';
-
-export default function MyAwesomeApp() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <Text>
-          Look, I'm safe! Not under a status bar or notch or home indicator or
-          anything! Very cool
-        </Text>
-      </View>
-    </SafeAreaView>
-  );
-}
+<SafeAreaView>
+  <View>
+    <Text>Look, I'm safe!</Text>
+  </View>
+</SafeAreaView>
 ```
 
 ### forceInset
@@ -71,6 +28,13 @@ Sometimes you will observe unexpected behavior and jank because SafeAreaView use
 
 `forceInset` takes an object with the keys `top | bottom | left | right | vertical | horizontal` and the values `'always' | 'never'`. Or you can override the padding altogether by passing an integer.
 
-### Accessing safe area inset values
+### With HOC
 
-Sometimes it's useful to know what the insets are for the top, right, bottom, and left of the screen. See the documentation for [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context) for more information.
+Sometimes you would prefer to use a higher-order component to wrap components.
+
+```js
+withSafeArea()(Component);
+
+// Or with forceInset props
+withSafeArea({ top: 'always' })(Component);
+```
